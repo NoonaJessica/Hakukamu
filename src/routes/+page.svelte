@@ -2,7 +2,8 @@
 	export let data: any;
 </script>
 
-<h1>Työhakemukset</h1>
+<h1>Työhakemusseuranta</h1>
+
 
 <p>Hakemuksia: {data?.applications?.length ?? 0}</p>
 
