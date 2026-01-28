@@ -1,6 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
+	import logo from '$lib/assets/hakukamu_logo.png';
 
 	let { children } = $props();
 </script>
@@ -9,12 +10,26 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<nav class="p-4 border-b flex gap-4">
-	<a href="/">Etusivu</a>
-	<a href="/add">Lisää työpaikka</a>
-	<a href="/applications">Hakemukset</a>
-</nav>
+<div class="app">
+	<aside class="sidebar">
+		<div class="brand">
+			<img class="logo-img" src={logo} alt="Hakukamu logo" />
+		</div>
 
-<main class="p-4">
-	{@render children()}
-</main>
+		<nav class="side-nav">
+			<a class="nav-item" href="/">Etusivu</a>
+			<a class="nav-item" href="/add">Lisää työpaikka</a>
+			<a class="nav-item" href="/applications">Hakemukset</a>
+		</nav>
+
+		<div class="sidebar-footer">
+			<div class="hint">Vinkki: pidä muistiinpanot ajan tasalla ✍️</div>
+		</div>
+	</aside>
+
+	<div class="content">
+		<div class="content-card">
+			{@render children()}
+		</div>
+	</div>
+</div>
