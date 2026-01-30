@@ -7,92 +7,147 @@
 		TARJOUS: 'Tarjous',
 		HYLATTY: 'Hylätty'
 	};
+
+	let filter = 'ALL';
+	const statuses = ['ALL', 'LAHETETTY', 'HAASTATTELU', 'TARJOUS', 'HYLATTY'];
+
+	$: filtered =
+		filter === 'ALL' ? data.applications : data.applications.filter((a: any) => a.status === filter);
+
+	function confirmDelete() {
+		return confirm('Poistetaanko tämä hakemus?');
+	}
 </script>
 
-<h1>Hakemukset</h1>
-<p>Hakemuksia: {data.applications.length}</p>
+<header class="page-header">
+	<h1 class="page-title">Hakemukset</h1>
 
-{#if data.applications.length === 0}
-	<p>Ei vielä hakemuksia. <a href="/add">Lisää ensimmäinen</a>.</p>
-{:else}
-	<ul style="display:grid; gap:12px; padding:0; list-style:none;">
-		{#each data.applications as app}
-			<li style="border:1px solid #ddd; padding:12px; border-radius:8px;">
-				<div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-					<div>
-						<strong>{app.company}</strong> – {app.role}
-						<div style="opacity:.8; font-size:.9em;">
-							Status: {statusLabel[app.status] ?? app.status}
-						</div>
-					</div>
+</header>
 
-					<!-- Status vaihto -->
-					<form method="POST" action="?/setStatus" style="display:flex; gap:8px; align-items:center;">
-						<input type="hidden" name="id" value={app.id} />
-						<select name="status" value={app.status}>
-							<option value="LAHETETTY">Lähetetty</option>
-							<option value="HAASTATTELU">Haastattelu</option>
-							<option value="TARJOUS">Tarjous</option>
-							<option value="HYLATTY">Hylätty</option>
-						</select>
-						<button type="submit">Vaihda</button>
-					</form>
-				</div>
+<section class="panel">
+	<div class="panel-head">
+		
+		<div class="panel-meta">Hakemuksia: {filtered.length}</div>
+			<div class="page-actions">
+		<div class="pill-select">
+			<select bind:value={filter} aria-label="Suodata statuksen mukaan">
+				{#each statuses as s}
+					<option value={s}>{s === 'ALL' ? 'Kaikki' : statusLabel[s]}</option>
+				{/each}
+			</select>
+		</div>
+	</div>
+	</div>
 
-				{#if app.url}
-				
-					<div style="margin-top:6px;">
-						<a href={app.url} target="_blank" rel="noreferrer">Linkki</a>
-					</div>
+	<div class="table-wrap">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Yritys</th>
+					<th>Rooli</th>
+					<th>Linkki</th>
+					<th>Status</th>
+					<th class="actions-col"></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{#each filtered as app (app.id)}
+					<tr>
+						<td class="cell-strong">{app.company}</td>
+						<td>{app.role}</td>
+						<td>
+							{#if app.url}
+								<a class="table-link" href={app.url} target="_blank" rel="noreferrer">Avaa</a>
+							{:else}
+								<span class="muted">—</span>
+							{/if}
+						</td>
+
+						<td>
+							<form method="POST" action="?/setStatus" class="inline">
+								<input type="hidden" name="id" value={app.id} />
+								<div class="status-control">
+									<span class="status-pill {app.status}">
+										{statusLabel[app.status] ?? app.status}
+									</span>
+
+									<select name="status" class="status-select" value={app.status}>
+										<option value="LAHETETTY">Lähetetty</option>
+										<option value="HAASTATTELU">Haastattelu</option>
+										<option value="TARJOUS">Tarjous</option>
+										<option value="HYLATTY">Hylätty</option>
+									</select>
+
+									<button class="btn ghost" type="submit">Päivitä</button>
+								</div>
+							</form>
+						</td>
+
+						<td class="actions">
+							<details class="row-details">
+								<summary class="btn pill">Avaa</summary>
+
+								<div class="details-card">
+									<div class="details-grid">
+										<div>
+											<div class="label">Muistiinpanot</div>
+											<div class="notes">{app.notes ?? '—'}</div>
+										</div>
+
+										<form method="POST" action="?/update" class="edit-form">
+											<input type="hidden" name="id" value={app.id} />
+
+											<label class="field">
+												<span>Yritys</span>
+												<input name="company" required value={app.company} />
+											</label>
+
+											<label class="field">
+												<span>Rooli</span>
+												<input name="role" required value={app.role} />
+											</label>
+
+											<label class="field">
+												<span>Linkki</span>
+												<input name="url" value={app.url ?? ''} />
+											</label>
+
+											<label class="field">
+												<span>Muistiinpanot</span>
+												<textarea name="notes" rows="3">{app.notes ?? ''}</textarea>
+											</label>
+
+											<div class="edit-actions">
+												<button class="btn" type="submit">Tallenna</button>
+
+												<button
+													class="btn danger"
+													type="submit"
+													formaction="?/delete"
+													on:click={(e) => {
+														if (!confirmDelete()) e.preventDefault();
+													}}
+												>
+													Poista
+												</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</details>
+						</td>
+					</tr>
+				{/each}
+
+				{#if filtered.length === 0}
+					<tr>
+						<td colspan="5" class="empty">
+							Ei hakemuksia tällä suodatuksella. <a href="/add">Lisää uusi</a>.
+						</td>
+					</tr>
 				{/if}
-
-				
-
-				<!-- Muokkaus "listan sisällä" -->
-				<details style="margin-top:10px;">
-					<summary>Muokkaa</summary>
-
-					<form method="POST" action="?/update" style="display:grid; gap:8px; margin-top:10px;">
-						<input type="hidden" name="id" value={app.id} />
-
-						<label>
-							Yritys*
-							<input name="company" required value={app.company} />
-						</label>
-
-						<label>
-							Rooli*
-							<input name="role" required value={app.role} />
-						</label>
-
-						<label>
-							Linkki
-							<input name="url" value={app.url ?? ''} />
-						</label>
-
-						<label>
-							Muistiinpanot
-							<textarea name="notes" rows="3">{app.notes ?? ''}</textarea>
-						</label>
-
-						<div style="display:flex; gap:8px; align-items:center;">
-							<button type="submit">Tallenna muutokset</button>
-
-							<button
-								type="submit"
-								formaction="?/delete"
-								on:click={(e) => {
-									if (!confirm('Poistetaanko tämä hakemus?')) {
-										e.preventDefault();
-									}
-								}}
-							>
-								Poista
-							</button>
-						</div>
-					</form>
-				</details>
-			</li>
-		{/each}
-	</ul>
-{/if}
+			</tbody>
+		</table>
+	</div>
+</section>

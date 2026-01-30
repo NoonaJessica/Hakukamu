@@ -3,10 +3,10 @@ import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 
 export const user = sqliteTable('user', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => randomUUID()),
-  age: integer('age')
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => randomUUID()),
+	age: integer('age')
 });
 
 export const jobApplication = sqliteTable('job_application', {
@@ -23,6 +23,8 @@ export const jobApplication = sqliteTable('job_application', {
 	notes: text('notes'),
 	url: text('url'),
 
-createdAt: integer('created_at').notNull().default(sql`(unixepoch())`),
-updatedAt: integer('updated_at').notNull().default(sql`(unixepoch())`),
+	meetingAt: integer('meeting_at'),
+
+	createdAt: integer('created_at').notNull().default(sql`(unixepoch())`),
+	updatedAt: integer('updated_at').notNull().default(sql`(unixepoch())`)
 });

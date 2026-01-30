@@ -19,20 +19,49 @@ export const actions = {
 		const url = String(fd.get('url') ?? '').trim() || null;
 		const notes = String(fd.get('notes') ?? '').trim() || null;
 
+		// datetime-local -> unix timestamp (seconds)
+		const meetingAtRaw = String(fd.get('meetingAt') ?? '').trim();
+		const meetingAt = meetingAtRaw
+			? Math.floor(new Date(meetingAtRaw).getTime() / 1000)
+			: null;
+
 		const status: Status = isStatus(statusRaw) ? statusRaw : 'LAHETETTY';
 
 		if (!company || !role) {
-			return fail(400, { error: 'Täytä yritys ja rooli.', company, role, status, url, notes });
+			return fail(400, {
+				error: 'Täytä yritys ja rooli.',
+				company,
+				role,
+				status,
+				url,
+				notes,
+				meetingAtRaw
+			});
+		}
+
+		// validate datetime-local parse
+		if (meetingAtRaw && Number.isNaN(meetingAt)) {
+			return fail(400, {
+				error: 'Tapaamisen aika on virheellinen.',
+				company,
+				role,
+				status,
+				url,
+				notes,
+				meetingAtRaw
+			});
 		}
 
 		await db.insert(jobApplication).values({
 			company,
 			role,
-			status, 
+			status,
 			url,
-			notes
+			notes,
+			meetingAt
 		});
 
 		throw redirect(303, '/applications');
 	}
 };
+

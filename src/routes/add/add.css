@@ -1,0 +1,51 @@
+.add-grid {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: 1.4fr 0.9fr;
+	gap: 14px;
+	align-items: start;
+}
+
+@media (max-width: 980px) {
+	.add-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.help {
+	display: block;
+	margin-top: 6px;
+	color: #6b7280;
+	font-size: 0.82rem;
+}
+
+.side-card {
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	border-radius: 16px;
+	padding: 16px;
+}
+
+.side-card h2 {
+	margin: 0 0 10px;
+	font-size: 1.05rem;
+}
+
+.checklist {
+	margin: 0;
+	padding-left: 18px;
+	color: #374151;
+	display: grid;
+	gap: 8px;
+}
+
+.tip {
+	margin-top: 12px;
+	padding: 12px;
+	border-radius: 14px;
+	background: rgba(108, 92, 231, 0.1);
+	border: 1px solid rgba(108, 92, 231, 0.18);
+	color: #3730a3;
+	font-weight: 700;
+}

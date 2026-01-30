@@ -1,0 +1,1 @@
+ALTER TABLE `job_application` ADD `meeting_at` integer;
