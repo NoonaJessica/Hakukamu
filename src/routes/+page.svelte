@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let data: any;
 	import './mainpage.css';
+	export let data: any;
 
 	const STATUSES = ['LAHETETTY', 'HAASTATTELU', 'TARJOUS', 'HYLATTY'] as const;
 

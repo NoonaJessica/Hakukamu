@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './add.css';
 	export let data: any;
 </script>
 
