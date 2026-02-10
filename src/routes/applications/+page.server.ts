@@ -53,6 +53,10 @@ export const actions = {
 		const role = String(fd.get('role') ?? '').trim();
 		const url = String(fd.get('url') ?? '').trim() || null;
 		const notes = String(fd.get('notes') ?? '').trim() || null;
+		const meetingAtStr = String(fd.get('meetingAt') ?? '').trim();
+		const meetingAt = meetingAtStr ? Math.floor(new Date(meetingAtStr).getTime() / 1000) : null;
+		const statusRaw = String(fd.get('status') ?? '').trim();
+		const status: Status | null = isStatus(statusRaw) ? statusRaw : null;
 
 		if (!id || !company || !role) {
 			return fail(400, { error: 'Täytä yritys ja rooli.' });
@@ -60,7 +64,7 @@ export const actions = {
 
 		await db
 			.update(jobApplication)
-			.set({ company, role, url, notes, updatedAt: new Date().getTime() })
+			.set({ company, role, url, notes, meetingAt, ...(status ? { status } : {}), updatedAt: new Date().getTime() })
 			.where(eq(jobApplication.id, id));
 
 		return { ok: true };
