@@ -224,10 +224,6 @@ body {
 	width: 130px;
 }
 
-.actions {
-	text-align: right;
-}
-
 /* status */
 .status-control {
 	display: flex;
