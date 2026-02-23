@@ -9,10 +9,27 @@
 	};
 
 	let filter = 'ALL';
+	let currentPage = 1;
+	const itemsPerPage = 8;
 	const statuses = ['ALL', 'LAHETETTY', 'HAASTATTELU', 'TARJOUS', 'HYLATTY'];
 
 	$: filtered =
 		filter === 'ALL' ? data.applications : data.applications.filter((a: any) => a.status === filter);
+
+	$: totalPages = Math.ceil(filtered.length / itemsPerPage);
+
+	$: paginatedItems = filtered.slice(
+		(currentPage - 1) * itemsPerPage,
+		currentPage * itemsPerPage
+	);
+
+	$: if (currentPage > totalPages && totalPages > 0) {
+		currentPage = totalPages;
+	}
+
+	function goToPage(page: number) {
+		currentPage = Math.max(1, Math.min(page, totalPages));
+	}
 
 	function confirmDelete() {
 		return confirm('Poistetaanko tämä hakemus?');
@@ -30,7 +47,7 @@
 		<div class="panel-meta">Hakemuksia: {filtered.length}</div>
 			<div class="page-actions">
 		<div class="pill-select">
-			<select bind:value={filter} aria-label="Suodata statuksen mukaan">
+			<select bind:value={filter} on:change={() => (currentPage = 1)} aria-label="Suodata statuksen mukaan">
 				{#each statuses as s}
 					<option value={s}>{s === 'ALL' ? 'Kaikki' : statusLabel[s]}</option>
 				{/each}
@@ -53,7 +70,7 @@
 			</thead>
 
 			<tbody>
-				{#each filtered as app (app.id)}
+				{#each paginatedItems as app (app.id)}
 					<tr>
 						<td class="cell-strong">{app.company}</td>
 						<td>{app.role}</td>
@@ -183,4 +200,54 @@
 			</tbody>
 		</table>
 	</div>
+
+	<!-- Pagination controls -->
+	<div class="pagination">
+		<button 
+			class="btn"
+			on:click={() => goToPage(currentPage - 1)} 
+			disabled={currentPage === 1}
+		>
+			← Edellinen
+		</button>
+
+		<div class="page-info">
+			Sivu {currentPage} / {totalPages}
+		</div>
+
+		<button 
+			class="btn"
+			on:click={() => goToPage(currentPage + 1)} 
+			disabled={currentPage === totalPages || totalPages === 0}
+		>
+			Seuraava →
+		</button>
+	</div>
 </section>
+
+<style>
+	.pagination {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 16px;
+		margin-top: 20px;
+		padding: 16px 0;
+	}
+
+	.page-info {
+		font-weight: 600;
+		color: #1f2937;
+		min-width: 100px;
+		text-align: center;
+	}
+
+	:global(.pagination .btn:disabled) {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	:global(.pagination .btn:disabled:hover) {
+		background: #6c5ce7;
+	}
+</style>
