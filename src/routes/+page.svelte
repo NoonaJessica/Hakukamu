@@ -20,6 +20,7 @@
 	};
 
 	$: apps = data.applications ?? [];
+	$: futureMeetings = data.futureMeetings ?? [];
 
 	$: counts = STATUSES.reduce((acc: any, s) => {
 		acc[s] = apps.filter((a: any) => a.status === s).length;
@@ -42,6 +43,14 @@
 			return seg;
 		});
 	})();
+
+	function formatDate(unixTimestamp: number): string {
+		const date = new Date(unixTimestamp * 1000);
+		const day = date.toLocaleDateString('fi-FI', { weekday: 'short' });
+		const dateStr = date.toLocaleDateString('fi-FI');
+		const time = date.toLocaleTimeString('fi-FI', { hour: '2-digit', minute: '2-digit' });
+		return `${day} ${dateStr} klo ${time}`;
+	}
 </script>
 
 <header class="home-header">
@@ -95,51 +104,82 @@
 		{/if}
 	</section>
 
-	<!-- oikea: donitsi -->
-	<section class="card">
-		<div class="card-head">
-			<h2>Jakauma statuksen mukaan</h2>
-			<span class="muted">Yhteensä: {total}</span>
-		</div>
-
-		<div class="donut-wrap">
-			<svg class="donut" viewBox="0 0 140 140" role="img" aria-label="Hakemusten jakauma">
-				<!-- taustarengas -->
-				<g transform="rotate(-90 70 70)">
-					<circle cx="70" cy="70" r={r} fill="transparent" stroke="rgba(0,0,0,0.06)" stroke-width="16" />
-
-					{#each segments as seg (seg.key)}
-						{#if seg.value > 0}
-							<circle
-								cx="70"
-								cy="70"
-								r={r}
-								fill="transparent"
-								stroke={statusColor[seg.key]}
-								stroke-width="16"
-								stroke-linecap="round"
-								stroke-dasharray={`${seg.dash} ${c - seg.dash}`}
-								stroke-dashoffset={-seg.offset}
-							/>
-						{/if}
-					{/each}
-				</g>
-
-				<!-- keskiteksti -->
-				<text x="70" y="66" text-anchor="middle" class="donut-total">{total}</text>
-				<text x="70" y="86" text-anchor="middle" class="donut-label">hakemusta</text>
-			</svg>
-
-			<div class="donut-side">
-				{#each STATUSES as s}
-					<div class="donut-row">
-						<span class="dot" style={`background:${statusColor[s]}`}></span>
-						<span class="donut-name">{statusLabel[s]}</span>
-						<span class="donut-val">{counts[s] ?? 0}</span>
-					</div>
-				{/each}
+	<div class="home-grid-right">
+		<!-- oikea: donitsi -->
+		<section class="card">
+			<div class="card-head">
+				<h2>Jakauma statuksen mukaan</h2>
+				<span class="muted">Yhteensä: {total}</span>
 			</div>
-		</div>
-	</section>
+
+			<div class="donut-wrap">
+				<svg class="donut" viewBox="0 0 140 140" role="img" aria-label="Hakemusten jakauma">
+					<!-- taustarengas -->
+					<g transform="rotate(-90 70 70)">
+						<circle cx="70" cy="70" r={r} fill="transparent" stroke="rgba(0,0,0,0.06)" stroke-width="16" />
+
+						{#each segments as seg (seg.key)}
+							{#if seg.value > 0}
+								<circle
+									cx="70"
+									cy="70"
+									r={r}
+									fill="transparent"
+									stroke={statusColor[seg.key]}
+									stroke-width="16"
+									stroke-linecap="round"
+									stroke-dasharray={`${seg.dash} ${c - seg.dash}`}
+									stroke-dashoffset={-seg.offset}
+								/>
+							{/if}
+						{/each}
+					</g>
+
+					<!-- keskiteksti -->
+					<text x="70" y="66" text-anchor="middle" class="donut-total">{total}</text>
+					<text x="70" y="86" text-anchor="middle" class="donut-label">hakemusta</text>
+				</svg>
+
+				<div class="donut-side">
+					{#each STATUSES as s}
+						<div class="donut-row">
+							<span class="dot" style={`background:${statusColor[s]}`}></span>
+							<span class="donut-name">{statusLabel[s]}</span>
+							<span class="donut-val">{counts[s] ?? 0}</span>
+						</div>
+					{/each}
+				</div>
+			</div>
+		</section>
+
+		<!-- Tulevat haastattelut -->
+		<section class="card">
+			<div class="card-head">
+				<h2>Tulevat haastattelut</h2>
+			</div>
+
+			{#if futureMeetings.length === 0}
+				<p class="muted">Ei tulevia haastatteluita.</p>
+			{:else}
+				<ul class="home-list">
+					{#each futureMeetings as meeting (meeting.id)}
+						<li class="home-row">
+							<div class="row-left">
+								<span class="dot" style={`background:${statusColor[meeting.status] ?? '#9ca3af'}`}></span>
+								<div class="row-text">
+									<div class="row-title">{meeting.company}</div>
+									<div class="row-sub">{formatDate(meeting.meetingAt)}</div>
+								</div>
+							</div>
+
+							<div class="row-right">
+								<span class="pill">{meeting.role}</span>
+							</div>
+						</li>
+					{/each}
+				</ul>
+			{/if}
+		</section>
+	</div>
 </div>
 
