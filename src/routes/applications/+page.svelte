@@ -101,17 +101,7 @@
 								<summary class="btn pill">Avaa</summary>
 
 								<div class="details-card">
-									<button 
-										type="button"
-										class="close-btn"
-										on:click={(e) => {
-											const details = e.currentTarget.closest('details');
-											if (details) details.open = false;
-										}}
-										aria-label="Sulje"
-									>
-										×
-									</button>
+									
 									<div class="details-grid">
 										<div>
 											<div class="label">Muistiinpanot</div>
