@@ -14,7 +14,7 @@ export const load = async () => {
 	const applications = await db
 		.select()
 		.from(jobApplication)
-		.orderBy(desc(jobApplication.updatedAt));
+		.orderBy(desc(jobApplication.createdAt));
 
 	return { applications };
 };
@@ -54,7 +54,17 @@ export const actions = {
 		const url = String(fd.get('url') ?? '').trim() || null;
 		const notes = String(fd.get('notes') ?? '').trim() || null;
 		const meetingAtStr = String(fd.get('meetingAt') ?? '').trim();
-		const meetingAt = meetingAtStr ? Math.floor(new Date(meetingAtStr).getTime() / 1000) : null;
+		const meetingTimeStr = String(fd.get('meetingTime') ?? '').trim();
+		
+		let meetingAt: number | null = null;
+		if (meetingAtStr) {
+			// Combine date and time
+			const dateTime = meetingTimeStr 
+				? `${meetingAtStr}T${meetingTimeStr}:00`
+				: `${meetingAtStr}T00:00:00`;
+			meetingAt = Math.floor(new Date(dateTime).getTime() / 1000);
+		}
+		
 		const statusRaw = String(fd.get('status') ?? '').trim();
 		const status: Status | null = isStatus(statusRaw) ? statusRaw : null;
 

@@ -6,7 +6,7 @@ export const load = async () => {
 const applications = await db
 	.select()
 	.from(jobApplication)
-	.orderBy(desc(jobApplication.updatedAt));
+	.orderBy(desc(jobApplication.createdAt));
 
 const now = Math.floor(Date.now() / 1000);
 const futureMeetings = applications

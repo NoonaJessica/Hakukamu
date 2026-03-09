@@ -90,7 +90,7 @@
 
 						<td>
 							{#if app.meetingAt}
-								📅 {new Date(app.meetingAt * 1000).toLocaleDateString('fi-FI')}
+								📅 {new Date(app.meetingAt * 1000).toLocaleDateString('fi-FI')} {new Date(app.meetingAt * 1000).toLocaleTimeString('fi-FI', { hour: '2-digit', minute: '2-digit' })}
 							{:else}
 								<span class="muted">—</span>
 							{/if}
@@ -120,7 +120,7 @@
 												<div class="label">Tapaaminen</div>
 												<div class="meeting-date">
 													{#if app.meetingAt}
-														{new Date(app.meetingAt * 1000).toLocaleDateString('fi-FI')}
+														{new Date(app.meetingAt * 1000).toLocaleDateString('fi-FI')} {new Date(app.meetingAt * 1000).toLocaleTimeString('fi-FI', { hour: '2-digit', minute: '2-digit' })}
 													{:else}
 														—
 													{/if}
@@ -166,6 +166,14 @@
 												type="date" 
 												name="meetingAt" 
 												value={app.meetingAt ? new Date(app.meetingAt * 1000).toISOString().split('T')[0] : ''}
+											/>
+										</label>
+										<label class="field">
+											<span>Tapaamisen aika</span>
+											<input 
+												type="time" 
+												name="meetingTime" 
+												value={app.meetingAt ? new Date(app.meetingAt * 1000).toISOString().substring(11, 16) : ''}
 											/>
 										</label>
 										<div class="edit-actions">
