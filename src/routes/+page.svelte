@@ -85,7 +85,7 @@
 			<p class="muted">Ei vielä hakemuksia. Lisää ensimmäinen hakemus.</p>
 		{:else}
 			<ul class="home-list">
-				{#each apps.slice(0, 6) as app (app.id)}
+				{#each apps.slice(0, 8) as app (app.id)}
 					<li class="home-row">
 						<div class="row-left">
 							<span class="dot" style={`background:${statusColor[app.status] ?? '#9ca3af'}`}></span>
@@ -155,14 +155,14 @@
 		<!-- Tulevat haastattelut -->
 		<section class="card">
 			<div class="card-head">
-				<h2>Tulevat haastattelut</h2>
+				<h1>Tulevat haastattelut</h1>
 			</div>
 
 			{#if futureMeetings.length === 0}
 				<p class="muted">Ei tulevia haastatteluita.</p>
 			{:else}
 				<ul class="home-list">
-					{#each futureMeetings as meeting (meeting.id)}
+					{#each futureMeetings.slice(0, 4) as meeting (meeting.id)}
 						<li class="home-row">
 							<div class="row-left">
 								<span class="dot" style={`background:${statusColor[meeting.status] ?? '#9ca3af'}`}></span>
