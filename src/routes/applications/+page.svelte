@@ -37,35 +37,35 @@
 </script>
 
 <header class="page-header">
-	<h1 class="page-title">Hakemukset</h1>
-
+	<h1 class="page-title"> 📝 Hakemukset</h1>
+	<a class="btn ghost" href="/add">+ Lisää uusi</a>
 </header>
 
 <section class="panel">
 	<div class="panel-head">
-		
-		<div class="panel-meta">Hakemuksia: {filtered.length}</div>
-			<div class="page-actions">
-		<div class="pill-select">
-			<select bind:value={filter} on:change={() => (currentPage = 1)} aria-label="Suodata statuksen mukaan">
-				{#each statuses as s}
-					<option value={s}>{s === 'ALL' ? 'Kaikki' : statusLabel[s]}</option>
-				{/each}
-			</select>
+		<div class="panel-meta">{filtered.length}  hakemusta</div>
+		<div class="page-actions">
+			<div class="pill-select">
+				<label for="status-filter">Suodata:</label>
+				<select id="status-filter" bind:value={filter} on:change={() => (currentPage = 1)} aria-label="Suodata statuksen mukaan">
+					{#each statuses as s}
+						<option value={s}>{s === 'ALL' ? 'Kaikki' : '' + statusLabel[s]}</option>
+					{/each}
+				</select>
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<div class="table-wrap">
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Yritys</th>
-					<th>Rooli</th>
-					<th>Linkki</th>
-					<th>Status</th>
-					<th>Tapaaminen</th>
-					<th class="actions-col"></th>
+					<th>🏢 Yritys</th>
+					<th>💼 Rooli</th>
+					<th>🔗 Linkki</th>
+					<th>📊 Status</th>
+					<th>📅 Tapaaminen</th>
+					<th class="actions-col">⚙️</th>
 				</tr>
 			</thead>
 
@@ -104,17 +104,10 @@
 									
 									<div class="details-grid">
 										<div>
-											<div class="label">Muistiinpanot</div>
-											<div class="notes">{app.notes ?? '—'}</div>
+											<h1>Muokkaa työpaikkaa</h1>
 											<div class="calendar-section">
-												<div class="label">Tapaaminen</div>
-												<div class="meeting-date">
-													{#if app.meetingAt}
-														{new Date(app.meetingAt * 1000).toLocaleDateString('fi-FI')} {new Date(app.meetingAt * 1000).toLocaleTimeString('fi-FI', { hour: '2-digit', minute: '2-digit' })}
-													{:else}
-														—
-													{/if}
-												</div>
+												
+												
 											</div>
 										</div>
 
@@ -191,7 +184,11 @@
 				{#if filtered.length === 0}
 					<tr>
 						<td colspan="6" class="empty">
-							Ei hakemuksia tällä suodatuksella. <a href="/add">Lisää uusi</a>.
+							<div class="empty-state">
+								<div class="empty-icon">📭</div>
+								<p>Ei hakemuksia tällä suodatuksella</p>
+								<a href="/add" class="btn">➕ Lisää ensimmäinen</a>
+							</div>
 						</td>
 					</tr>
 				{/if}
@@ -247,5 +244,71 @@
 
 	:global(.pagination .btn:disabled:hover) {
 		background: #6c5ce7;
+	}
+
+	:global(.table tbody tr) {
+		transition: background-color 0.15s;
+	}
+
+	:global(.table tbody tr:hover) {
+		background-color: rgba(108, 92, 231, 0.05);
+	}
+
+	:global(.pill-select) {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	:global(.pill-select label) {
+		font-weight: 600;
+		color: #6b7280;
+		font-size: 0.9rem;
+	}
+
+	:global(.pill-select select) {
+		padding: 8px 12px;
+		border-radius: 12px;
+		border: 1.5px solid rgba(108, 92, 231, 0.3);
+		background: rgba(108, 92, 231, 0.08);
+		color: #3730a3;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.15s;
+	}
+
+	:global(.pill-select select:hover) {
+		border-color: rgba(108, 92, 231, 0.5);
+		background: rgba(108, 92, 231, 0.12);
+	}
+
+	:global(.pill-select select:focus) {
+		outline: none;
+		border-color: #3730a3;
+		box-shadow: 0 0 0 3px rgba(55, 48, 163, 0.1);
+	}
+
+	.empty-state {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 14px;
+		padding: 40px 20px;
+		text-align: center;
+	}
+
+	.empty-state :global(.empty-icon) {
+		font-size: 3rem;
+		opacity: 0.6;
+	}
+
+	.empty-state :global(p) {
+		margin: 0;
+		color: #6b7280;
+		font-weight: 500;
+	}
+
+	.empty-state :global(.btn) {
+		margin-top: 8px;
 	}
 </style>

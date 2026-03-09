@@ -1,34 +1,6 @@
 /* --- Home dashboard --- */
 .home-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 12px;
-	margin-bottom: 12px;
-}
-
-.home-title {
-	margin: 0;
-	font-size: 1.8rem;
-	letter-spacing: -0.02em;
-}
-
-.home-sub {
-	margin: 6px 0 0;
-	color: #6b7280;
-}
-
-.home-cta {
-	text-decoration: none;
-	background: #6c5ce7;
-	color: white;
-	padding: 10px 14px;
-	border-radius: 12px;
-	font-weight: 800;
-}
-
-.home-cta:hover {
-	background: #5a4ed0;
+	display: none;
 }
 
 .legend {
@@ -170,11 +142,41 @@
 .pill {
 	font-size: 0.75rem;
 	font-weight: 900;
-	padding: 6px 10px;
+	padding: 6px 12px;
 	border-radius: 999px;
 	background: rgba(17, 24, 39, 0.06);
 	color: #111827;
 	white-space: nowrap;
+	border: 1.5px solid rgba(0, 0, 0, 0.1);
+	display: inline-block;
+}
+
+.pill.status-pill {
+	border: 1.5px solid;
+}
+
+.pill.status-pill.LAHETETTY {
+	background: #dbeafe;
+	color: #1e40af;
+	border-color: #3b82f6;
+}
+
+.pill.status-pill.HAASTATTELU {
+	background: #fef3c7;
+	color: #b45309;
+	border-color: #f59e0b;
+}
+
+.pill.status-pill.TARJOUS {
+	background: #dcfce7;
+	color: #166534;
+	border-color: #22c55e;
+}
+
+.pill.status-pill.HYLATTY {
+	background: #fee2e2;
+	color: #991b1b;
+	border-color: #ef4444;
 }
 
 .dot {

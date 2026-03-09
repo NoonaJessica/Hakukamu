@@ -13,9 +13,9 @@
 
 	// sama värikoodi palloille ja diagrammille
 	const statusColor: Record<string, string> = {
-		LAHETETTY: '#3730a3',
-		HAASTATTELU: '#c2410c',
-		TARJOUS: '#065f46',
+		LAHETETTY: '#1e40af',
+		HAASTATTELU: '#b45309',
+		TARJOUS: '#166534',
 		HYLATTY: '#991b1b'
 	};
 
@@ -53,13 +53,9 @@
 	}
 </script>
 
-<header class="home-header">
-	<div>
-		<h1 class="home-title">Hakukamu apuna työn haussa </h1>
-		<p class="home-sub">Seuraa työnhakua yhdellä silmäyksellä.</p>
-	</div>
-
-	<a class="home-cta" href="/add"> Lisää työpaikka</a>
+<header class="page-header">
+	<h1 class="page-title">🏠 Hakukamu</h1>
+	<a class="btn ghost" href="/add">+ Lisää työpaikka</a>
 </header>
 
 <!-- Selite väreille -->
@@ -96,7 +92,7 @@
 						</div>
 
 						<div class="row-right">
-							<span class="pill">{statusLabel[app.status] ?? app.status}</span>
+							<span class="pill status-pill {app.status}">{statusLabel[app.status] ?? app.status}</span>
 						</div>
 					</li>
 				{/each}
