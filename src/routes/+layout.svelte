@@ -20,6 +20,7 @@
 			<a class="nav-item" href="/">Etusivu</a>
 			<a class="nav-item" href="/add">Lisää työpaikka</a>
 			<a class="nav-item" href="/applications">Hakemukset</a>
+			<a class="nav-item" href="/ai">🤖 AI Palaute</a>
 		</nav>
 
 		<div class="sidebar-footer">

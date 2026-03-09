@@ -9,6 +9,10 @@ function isStatus(v: string): v is Status {
 	return (STATUSES as readonly string[]).includes(v);
 }
 
+export const load = async () => {
+	return {};
+};
+
 export const actions = {
 	create: async ({ request }) => {
 		const fd = await request.formData();

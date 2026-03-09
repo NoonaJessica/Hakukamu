@@ -58,6 +58,7 @@
 					<textarea name="notes" rows="4" placeholder="Muistiinpanot, kysymykset, fiilikset...">{data?.notes ?? ''}</textarea>
 				</label>
 
+
 				<div class="form-actions">
 					<button class="btn" type="submit">Tallenna</button>
 					<a class="btn pill" href="/applications">Peruuta</a>
@@ -77,6 +78,10 @@
 
 			<div class="tip">
 				Vinkki: Kun tapaaminen on kirjattu, näet sen myöhemmin listalta ja voit päivittää statuksen.
+			</div>
+
+			<div class="tip ai-link">
+				🤖 <a href="/ai">Tarvitsetko palautetta? Käytä AI-palautetta</a>
 			</div>
 		</aside>
 	</div>
