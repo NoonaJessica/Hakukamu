@@ -1,14 +1,18 @@
 # Hakukamu
 
-Hakukamu on yksinkertainen sovellus työnhaun hallintaan. Sen avulla käyttäjä voi tallentaa ja seurata lähettämiään työhakemuksia sekä niiden tilaa rekrytointiprosessin aikana.
+Hakukamu is a simple application for managing job applications. It allows users to store and track the job applications they have sent and monitor their status during the recruitment process.
+
+## Purpose of the Project
+
+The purpose of this project is to practice full stack web development by building a working web application for tracking job applications.
 
 ## Features
 
-* Lisää uusi työhakemus
-* Seuraa hakemuksen tilaa
-* Tallenna muistiinpanoja hakemuksista
-* Linkitä työpaikkailmoitus hakemukseen
-* Yksinkertainen tietokantarakenne
+* Add a new job application
+* Track the status of applications
+* Save notes about job applications
+* Link the job posting to the application
+* Simple database structure
 
 ## Tech Stack
 
@@ -19,35 +23,35 @@ Hakukamu on yksinkertainen sovellus työnhaun hallintaan. Sen avulla käyttäjä
 
 ## Database
 
-Sovellus käyttää SQLite-tietokantaa.
+The application uses an SQLite database.
 
 ### Tables
 
 #### user
 
-Tallentaa käyttäjän tiedot.
+Stores user information.
 
-| Column | Type    | Description                 |
-| ------ | ------- | --------------------------- |
-| id     | text    | Uniikki käyttäjä-ID         |
-| age    | integer | Käyttäjän ikä (valinnainen) |
+| Column | Type | Description |
+|------|------|------|
+| id | text | Unique user ID |
+| age | integer | User age (optional) |
 
 #### job_application
 
-Tallentaa käyttäjän työhakemukset.
+Stores the user's job applications.
 
-| Column  | Type    | Description                  |
-| ------- | ------- | ---------------------------- |
-| id      | integer | Hakemuksen ID                |
-| company | text    | Yrityksen nimi               |
-| role    | text    | Haettu työ                   |
-| status  | text    | Hakemuksen tila              |
-| notes   | text    | Muistiinpanot                |
-| url     | text    | Linkki työpaikkailmoitukseen |
+| Column | Type | Description |
+|------|------|------|
+| id | integer | Application ID |
+| company | text | Company name |
+| role | text | Job role applied for |
+| status | text | Application status |
+| notes | text | Notes |
+| url | text | Link to the job posting |
 
 ### Status values
 
-Hakemuksilla voi olla seuraavat tilat:
+Applications can have the following statuses:
 
 * `LAHETETTY`
 * `KASITTELYSSA`
@@ -57,93 +61,91 @@ Hakemuksilla voi olla seuraavat tilat:
 
 ## Installation
 
-1. Kloonaa repository
+1. Clone the repository
 
-```
+
 git clone https://github.com/NoonaJessica/Hakukamu.git
-```
 
-2. Siirry projektiin
 
-```
+2. Move into the project directory
+
+
 cd Hakukamu
-```
 
-3. Asenna riippuvuudet
 
-```
+3. Install dependencies
+
+
 npm install
-```
 
-4. Käynnistä projekti
 
-```
+4. Start the project
+
+
 npm run dev
-```
+
 
 ## Database Setup
 
-Sovellus käyttää Drizzle ORM:ää tietokantahallinnan ja migraatioiden kanssa.
+The application uses Drizzle ORM for database management and migrations.
 
-### Migraatioiden ajaminen
+### Running migrations
 
-Migraatiot ajaetaan automaattisesti sovellusta käynnistäessä. Voit myös ajaa migraatiot manuaalisesti:
+Migrations are run automatically when the application starts. You can also run them manually:
 
-```
+
 npm run db:push
-```
 
-### Migraatioiden luominen
 
-Jos teit muutoksia `schema.ts` tiedostoon, luo uusi migraatio:
+### Generating migrations
 
-```
+If you make changes to the `schema.ts` file, generate a new migration:
+
+
 npm run db:migrate
-```
 
-### Tietokannan tarkasteleminen
 
-Voit tarkastella ja hallita tietokantaa Drizzle Studiolla:
+### Viewing the database
 
-```
+You can inspect and manage the database using Drizzle Studio:
+
+
 npm run db:studio
-```
 
-Tämä avaa selaimen, jossa voit selata tauluja, lisätä tai muokata tietoa.
 
-### Tietokannan nollaaminen
+This opens a browser where you can view tables, add data, or edit records.
 
-Tietokannan poistamiseksi ja uudelleenluomiseksi:
+### Resetting the database
 
-```
+To delete and recreate the database:
+
+
 npm run db:reset
-```
 
-**Varoitus:** Tämä poistaa kaikki tiedot tietokannasta.
+
+**Warning:** This will delete all data in the database.
 
 ## Project Structure
 
-```
+
 Hakukamu
 │
 ├── db
-│   └── schema.ts
+│ └── schema.ts
 │
 ├── src
-│   └── application logic
-│
+│ └── application logic
 │
 └── README.md
-```
+
 
 ## Future Improvements
 
-Mahdollisia kehityskohteita:
+Possible improvements:
 
-* käyttäjäkohtaiset hakemukset (`userId`)
-* hakemusten aikaleimat (`created_at`, `updated_at`)
-* hakemusten analytiikka
-
+* user-specific applications (`userId`)
+* timestamps for applications (`created_at`, `updated_at`)
+* job application analytics
 
 ## Screenshots
 
