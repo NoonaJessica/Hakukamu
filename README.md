@@ -132,8 +132,6 @@ Hakukamu
 ├── src
 │   └── application logic
 │
-├── docs
-│   └── database documentation
 │
 └── README.md
 ```
@@ -144,8 +142,8 @@ Mahdollisia kehityskohteita:
 
 * käyttäjäkohtaiset hakemukset (`userId`)
 * hakemusten aikaleimat (`created_at`, `updated_at`)
-* yritystaulu
 * hakemusten analytiikka
+
 
 ## Screenshots
 
@@ -156,9 +154,3 @@ Mahdollisia kehityskohteita:
 ![Hakukamu Screenshot 3](src/lib/assets/Hakukamu_sc_3.png)
 
 ![Hakukamu Screenshot 4](src/lib/assets/Hakukamu_sc_4.png)
-
-## License
-
-MIT License
-
-
